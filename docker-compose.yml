@@ -1,0 +1,10 @@
+version: '3'
+services:
+  notebook:
+    image: jupyter/scipy-notebook
+    ports:
+      - '8888:8888'
+    depends_on: khaiii
+  khaiii:
+    build:
+      context: ./scipy-khaiii
