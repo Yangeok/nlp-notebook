@@ -22,7 +22,7 @@ WORKDIR /deps
 RUN git clone https://github.com/kakao/khaiii.git
 WORKDIR /deps/khaiii
 
-RUN pip install cython && \
+RUN pip install cython wordcloud && \
   pip install --upgrade pip && \
   pip install -r requirements.txt && \
   mkdir build
@@ -45,13 +45,13 @@ RUN pip install jupyter_http_over_ws && \
 RUN pip install konlpy && curl -L https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh | bash
 
 # Install another packages
-RUN pip install \
-  pandas_explode \
-  transformers \
-  autopep8 twint pytorch_pretrained_bert \
-  s3fs fastparquet soynlp \
-  randomcolor pynamodb plotly python-snappy 
-RUN pip install "dask[complete]"
+# RUN pip install \
+#   pandas_explode \
+#   transformers \
+#   autopep8 twint pytorch_pretrained_bert \
+#   s3fs fastparquet soynlp \
+#   randomcolor pynamodb plotly python-snappy 
+# RUN pip install "dask[complete]"
 
 RUN wget -O /usr/local/bin/orca https://github.com/plotly/orca/releases/download/v1.2.1/orca-1.2.1-x86_64.AppImage && chmod +x /usr/local/bin/orca
 RUN pip install psutil requests
@@ -61,9 +61,11 @@ RUN git clone https://github.com/NVIDIA/apex && \
   cd apex && \
   pip install --no-cache-dir ./
 
-
 # Add non-root user
 RUN adduser --disabled-password --gecos "" user
 
 # Reset Workdir
 WORKDIR /code
+
+# REF: https://github.com/ReproNim/neurodocker/issues/82
+ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
