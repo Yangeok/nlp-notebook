@@ -1,3 +1,2 @@
-notebook/font
-notebook/data
-notebook/.ipynb_checkpoints
+notebook/
+!notebook/*.ipynb
